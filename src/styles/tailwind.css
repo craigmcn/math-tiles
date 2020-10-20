@@ -1,0 +1,5 @@
+/* TODO For production: https://daveceddia.com/tailwind-create-react-app/ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
