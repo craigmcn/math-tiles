@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { numbers } from "../utils";
+import { NextExercise } from "./NextExercise";
 
 export const Bigger = () => {
 
@@ -21,10 +21,10 @@ export const Bigger = () => {
     }
 
     const initialize = () => {
-        const newNumbers = [ ...numbers ];
+        const numbers = Array.from(Array(12), (_, i) => i + 1);
 
-        const a = newNumbers.splice(Math.floor(Math.random() * newNumbers.length), 1)[0];
-        const b = newNumbers.splice(Math.floor(Math.random() * newNumbers.length), 1)[0];
+        const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+        const b = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
         
         setRandA(a)
         setRandB(b)
@@ -68,6 +68,8 @@ export const Bigger = () => {
             <p className="text-3xl mt-4">
                 <button className="bg-orange-900 hover:bg-orange-800 text-orange-200 hover:text-orange-100 font-bold py-2 px-4 rounded shadow" type="button" onClick={ reset }>Try new numbers</button>
             </p>
+
+            <NextExercise currentExercise="bigger" />
         </div>
     );
 };
