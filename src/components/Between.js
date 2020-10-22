@@ -61,7 +61,7 @@ export const Between = () => {
             utterance.pitch = 1.4
             speechSynthesis.speak(utterance)
         }
-    }, [ right, selection, randA ]);
+    }, [ right, selection, randA, randB ]);
 
     useEffect(() => {
         if (wrong) {
