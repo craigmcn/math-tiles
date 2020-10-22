@@ -10,6 +10,8 @@ import { Higher } from './components/Higher';
 import { OneMore } from './components/OneMore';
 import { OneLess } from './components/OneLess';
 import { Between } from './components/Between';
+import { Add } from './components/Add';
+import { Subtract } from './components/Subtract';
 
 const App = () => (
   <Router>
@@ -28,6 +30,12 @@ const App = () => (
         <li className="mr-6">
           <Link className="text-blue-500 hover:text-blue-800" to="/between">Between</Link>
         </li>
+        <li className="mr-6">
+          <Link className="text-blue-500 hover:text-blue-800" to="/add">Add</Link>
+        </li>
+        <li className="mr-6">
+          <Link className="text-blue-500 hover:text-blue-800" to="/subtract">Subtract</Link>
+        </li>
       </ul>
 
       <Switch>
@@ -39,6 +47,12 @@ const App = () => (
         </Route>
         <Route path="/between">
           <Between />
+        </Route>
+        <Route path="/add">
+          <Add />
+        </Route>
+        <Route path="/subtract">
+          <Subtract />
         </Route>
         <Route path="/">
           <Higher />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { synthSpeak } from "../utils";
 import { NextExercise } from "./NextExercise";
 
 export const Higher = () => {
@@ -40,28 +41,15 @@ export const Higher = () => {
     }
 
     useEffect(() => {
-        if (randA && randB) {
-            const utterance = new SpeechSynthesisUtterance(`Pick the higher number. ${randA} or ${randB}`)
-            speechSynthesis.speak(utterance)
-        }
+        (randA && randB) && synthSpeak(`Pick the higher number. ${randA} or ${randB}`)
     }, [ randA, randB ]);
 
     useEffect(() => {
-        if (right) {
-            const utterance = new SpeechSynthesisUtterance(`Correct! ${ randArray[1] } is higher than ${ randArray[0] }`)
-            utterance.rate = 1.2
-            utterance.pitch = 1.4
-            speechSynthesis.speak(utterance)
-        }
+        right && synthSpeak(`Correct! ${ randArray[1] } is higher than ${ randArray[0] }`, "happy")
     }, [ right, randArray ]);
 
     useEffect(() => {
-        if (wrong) {
-            const utterance = new SpeechSynthesisUtterance(`Ooh. Not quite. Try again.`)
-            utterance.rate = 1.3
-            utterance.pitch = 0.8
-            speechSynthesis.speak(utterance)
-        }
+        wrong && synthSpeak("Not quite. Try again.", "sad")
     }, [ wrong ]);
 
     useEffect(() => {
@@ -87,7 +75,7 @@ export const Higher = () => {
             }
             {
                 wrong &&
-                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Ooh! Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
+                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
             }
 
             <p className="text-3xl mt-4">

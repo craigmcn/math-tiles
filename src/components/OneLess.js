@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { shuffle } from "../utils";
+import { shuffle, synthSpeak } from "../utils";
 import { NextExercise } from "./NextExercise";
 
 export const OneLess = () => {
@@ -12,19 +12,13 @@ export const OneLess = () => {
     const [ wrong, setWrong ] = useState(false);
 
     const isOneLess = num => () => {
-        speak(num)
         setSelection(num)
         setRight(num === randA - 1);
         setWrong(num !== randA - 1);
     }
 
-    const speak = num => () => {
-        const utterance = new SpeechSynthesisUtterance(num)
-        speechSynthesis.speak(utterance)
-    }
-
     const initialize = () => {
-        const numbers = Array.from(Array(12), (_, i) => i + 1);
+        const numbers = Array.from(Array(11), (_, i) => i + 2);
         const optionNumbers = [];
 
         const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
@@ -51,28 +45,15 @@ export const OneLess = () => {
     }
 
     useEffect(() => {
-        if (randA > 0) {
-            const utterance = new SpeechSynthesisUtterance(`Pick the number that is 1 less than ${randA}`)
-            speechSynthesis.speak(utterance)
-        }
+        randA > 0 && synthSpeak(`Pick the number that is 1 less than ${randA}`)
     }, [ randA ]);
 
     useEffect(() => {
-        if (right) {
-            const utterance = new SpeechSynthesisUtterance(`Correct! ${ selection } is 1 less than ${ randA }`)
-            utterance.rate = 1.2
-            utterance.pitch = 1.4
-            speechSynthesis.speak(utterance)
-        }
+        right && synthSpeak(`Correct! ${ selection } is 1 less than ${ randA }`, "happy")
     }, [ right, selection, randA ]);
 
     useEffect(() => {
-        if (wrong) {
-            const utterance = new SpeechSynthesisUtterance(`Ooh. Not quite. Try again.`)
-            utterance.rate = 1.3
-            utterance.pitch = 0.8
-            speechSynthesis.speak(utterance)
-        }
+        wrong && synthSpeak("Not quite. Try again.", "sad")
     }, [ wrong ]);
 
     useEffect(() => {
@@ -106,7 +87,7 @@ export const OneLess = () => {
             }
             {
                 wrong &&
-                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Ooh! Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
+                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
             }
 
             <p className="text-3xl mt-4">

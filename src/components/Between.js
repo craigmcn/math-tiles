@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { shuffle } from "../utils";
+import { shuffle, synthSpeak } from "../utils";
 import { NextExercise } from "./NextExercise";
 
 export const Between = () => {
@@ -48,28 +48,15 @@ export const Between = () => {
     }
 
     useEffect(() => {
-        if (randA && randB) {
-            const utterance = new SpeechSynthesisUtterance(`Pick the number that is between ${randA} and ${randB}`)
-            speechSynthesis.speak(utterance)
-        }
+        (randA && randB) && synthSpeak(`Pick the number that is between ${randA} and ${randB}`)
     }, [ randA, randB ]);
 
     useEffect(() => {
-        if (right) {
-            const utterance = new SpeechSynthesisUtterance(`Correct! ${ selection } is between ${randA} and ${randB}`)
-            utterance.rate = 1.2
-            utterance.pitch = 1.4
-            speechSynthesis.speak(utterance)
-        }
+        right && synthSpeak(`Correct! ${ selection } is between ${randA} and ${randB}`, "happy")
     }, [ right, selection, randA, randB ]);
 
     useEffect(() => {
-        if (wrong) {
-            const utterance = new SpeechSynthesisUtterance(`Ooh. Not quite. Try again.`)
-            utterance.rate = 1.3
-            utterance.pitch = 0.8
-            speechSynthesis.speak(utterance)
-        }
+        wrong && synthSpeak("Not quite. Try again.", "sad")
     }, [ wrong ]);
 
     useEffect(() => {
@@ -81,8 +68,8 @@ export const Between = () => {
             <h1 className="text-6xl">Pick the number that is between &hellip;</h1>
 
             <p className="text-6xl mt-8">
-                <span className="inline-block bg-blue-900 hover:bg-blue-800 text-blue-200 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-24 rounded">{ randA }</span>
-                <span className="inline-block bg-yellow-200 hover:bg-yellow-300 text-yellow-800 hover:text-yellow-700 font-bold mx-8 py-2 px-4 w-24 rounded">{ randB }</span>
+                <span className="inline-block bg-blue-900 hover:bg-blue-800 text-blue-200 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-32 rounded">{ randA }</span>
+                <span className="inline-block bg-yellow-200 hover:bg-yellow-300 text-yellow-800 hover:text-yellow-700 font-bold mx-8 py-2 px-4 w-32 rounded">{ randB }</span>
             </p>
 
             <p className="text-4xl mt-12">
@@ -104,7 +91,7 @@ export const Between = () => {
             }
             {
                 wrong &&
-                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Ooh! Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
+                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
             }
 
             <p className="text-3xl mt-4">
