@@ -12,9 +12,15 @@ export const OneLess = () => {
     const [ wrong, setWrong ] = useState(false);
 
     const isOneLess = num => () => {
+        speak(num)
         setSelection(num)
         setRight(num === randA - 1);
         setWrong(num !== randA - 1);
+    }
+
+    const speak = num => () => {
+        const utterance = new SpeechSynthesisUtterance(num)
+        speechSynthesis.speak(utterance)
     }
 
     const initialize = () => {
@@ -43,6 +49,31 @@ export const OneLess = () => {
         
         initialize();
     }
+
+    useEffect(() => {
+        if (randA > 0) {
+            const utterance = new SpeechSynthesisUtterance(`Pick the number that is 1 less than ${randA}`)
+            speechSynthesis.speak(utterance)
+        }
+    }, [ randA ]);
+
+    useEffect(() => {
+        if (right) {
+            const utterance = new SpeechSynthesisUtterance(`Correct! ${ selection } is 1 less than ${ randA }`)
+            utterance.rate = 1.2
+            utterance.pitch = 1.4
+            speechSynthesis.speak(utterance)
+        }
+    }, [ right, selection, randA ]);
+
+    useEffect(() => {
+        if (wrong) {
+            const utterance = new SpeechSynthesisUtterance(`Ooh. Not quite. Try again.`)
+            utterance.rate = 1.3
+            utterance.pitch = 0.8
+            speechSynthesis.speak(utterance)
+        }
+    }, [ wrong ]);
 
     useEffect(() => {
         initialize();

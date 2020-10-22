@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NextExercise } from "./NextExercise";
 
-export const Bigger = () => {
+export const Higher = () => {
 
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
@@ -10,12 +10,12 @@ export const Bigger = () => {
     const [ right, setRight ] = useState(false);
     const [ wrong, setWrong ] = useState(false);
 
-    const isBiggerA = () => {
+    const isHigherA = () => {
         setRight(randA > randB);
         setWrong(randA < randB);
     }
 
-    const isBiggerB = () => {
+    const isHigherB = () => {
         setRight(randB > randA);
         setWrong(randB < randA);
     }
@@ -40,6 +40,31 @@ export const Bigger = () => {
     }
 
     useEffect(() => {
+        if (randA && randB) {
+            const utterance = new SpeechSynthesisUtterance(`Pick the higher number. ${randA} or ${randB}`)
+            speechSynthesis.speak(utterance)
+        }
+    }, [ randA, randB ]);
+
+    useEffect(() => {
+        if (right) {
+            const utterance = new SpeechSynthesisUtterance(`Correct! ${ randArray[1] } is higher than ${ randArray[0] }`)
+            utterance.rate = 1.2
+            utterance.pitch = 1.4
+            speechSynthesis.speak(utterance)
+        }
+    }, [ right, randArray ]);
+
+    useEffect(() => {
+        if (wrong) {
+            const utterance = new SpeechSynthesisUtterance(`Ooh. Not quite. Try again.`)
+            utterance.rate = 1.3
+            utterance.pitch = 0.8
+            speechSynthesis.speak(utterance)
+        }
+    }, [ wrong ]);
+
+    useEffect(() => {
         initialize();
     }, []);
 
@@ -47,8 +72,8 @@ export const Bigger = () => {
         <div className="text-center">
             <h1 className="text-6xl">Pick the higher number</h1>
             <p className="text-5xl mt-12">
-                <button className="bg-blue-900 hover:bg-blue-800 text-blue-200 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isBiggerA }>{ randA }</button>
-                <button className="bg-yellow-200 hover:bg-yellow-300 text-yellow-800 hover:text-yellow-700 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isBiggerB }>{ randB }</button>
+                <button className="bg-blue-900 hover:bg-blue-800 text-blue-200 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isHigherA }>{ randA }</button>
+                <button className="bg-yellow-200 hover:bg-yellow-300 text-yellow-800 hover:text-yellow-700 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isHigherB }>{ randB }</button>
             </p>
             {
                 (!right && !wrong) &&
@@ -57,7 +82,7 @@ export const Bigger = () => {
             {
                 right &&
                 <p className="text-3xl my-4 p-12 rounded">
-                    <span className="font-bold text-green-800">✔ Correct!</span> { randArray[1] } <span className="font-bold">is</span> bigger than { randArray[0] }
+                    <span className="font-bold text-green-800">✔ Correct!</span> { randArray[1] } <span className="font-bold">is</span> higher than { randArray[0] }
                 </p>
             }
             {
@@ -69,7 +94,7 @@ export const Bigger = () => {
                 <button className="bg-orange-900 hover:bg-orange-800 text-orange-200 hover:text-orange-100 font-bold py-2 px-4 rounded shadow" type="button" onClick={ reset }>Try new numbers</button>
             </p>
 
-            <NextExercise currentExercise="bigger" />
+            <NextExercise currentExercise="higher" />
         </div>
     );
 };

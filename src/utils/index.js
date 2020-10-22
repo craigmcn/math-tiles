@@ -1,6 +1,6 @@
 export const numbers = Array(12).fill(1).map((_, i) => i + 1);
 
-export const exercises = [ "bigger", "one-more", "one-less" ]
+export const exercises = [ "higher", "one-more", "one-less", "between" ]
 
 export const shuffle = array => {
     var currentIndex = array.length, temporaryValue, randomIndex;
