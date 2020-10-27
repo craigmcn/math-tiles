@@ -3,9 +3,11 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
+import StoreProvider from "./store"
 import './App.css';
+import { Menu } from './components/Menu';
+import { Start } from './components/Start';
 import { Higher } from './components/Higher';
 import { OneMore } from './components/OneMore';
 import { OneLess } from './components/OneLess';
@@ -14,56 +16,39 @@ import { Add } from './components/Add';
 import { Subtract } from './components/Subtract';
 
 const App = () => (
-  <Router>
-    <div className="container mx-auto">
+  <StoreProvider>
+    <Router>
+      <div className="container mx-auto">
 
-      <ul className="flex">
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/">Higher</Link>
-        </li>
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/one-more">One more</Link>
-        </li>
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/one-less">One less</Link>
-        </li>
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/between">Between</Link>
-        </li>
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/add">Add</Link>
-        </li>
-        <li className="mr-6">
-          <Link className="text-blue-500 hover:text-blue-800" to="/subtract">Subtract</Link>
-        </li>
-      </ul>
+        <Menu />
 
-      <Switch>
-        <Route path="/one-more">
-          <OneMore />
-        </Route>
-        <Route path="/one-less">
-          <OneLess />
-        </Route>
-        <Route path="/between">
-          <Between />
-        </Route>
-        <Route path="/add">
-          <Add />
-        </Route>
-        <Route path="/subtract">
-          <Subtract />
-        </Route>
-        <Route path="/">
-          <Higher />
-        </Route>
-        <Route path="/higher">
-          <Higher />
-        </Route>
-      </Switch>
+        <Switch>
+          <Route path="/one-more">
+            <OneMore />
+          </Route>
+          <Route path="/one-less">
+            <OneLess />
+          </Route>
+          <Route path="/between">
+            <Between />
+          </Route>
+          <Route path="/add">
+            <Add />
+          </Route>
+          <Route path="/subtract">
+            <Subtract />
+          </Route>
+          <Route path="/higher">
+            <Higher />
+          </Route>
+          <Route path="/">
+            <Start />
+          </Route>
+        </Switch>
 
-    </div>
-  </Router>
+      </div>
+    </Router>
+  </StoreProvider>
 );
 
 export default App;

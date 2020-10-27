@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { synthSpeak } from "../utils";
-import { NextExercise } from "./NextExercise";
+import { StoreContext } from '../store'
+import { Exercise } from "./Exercise"
+import { Status } from "./Status";
 
 export const Higher = () => {
+
+    const {
+        sounds: [ sounds ],
+        started: [ started ],
+        right: [ right, setRight ],
+        wrong: [ wrong, setWrong ]
+    } = useContext(StoreContext)
+
+    const title = "Pick the higher number"
 
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
     const [ randArray, setRandArray ] = useState([])
-
-    const [ right, setRight ] = useState(false);
-    const [ wrong, setWrong ] = useState(false);
 
     const isHigherA = () => {
         setRight(randA > randB);
@@ -21,7 +29,10 @@ export const Higher = () => {
         setWrong(randB < randA);
     }
 
-    const initialize = () => {
+    const initialize = useCallback(() => {
+        setRight(false);
+        setWrong(false);
+
         const numbers = Array.from(Array(12), (_, i) => i + 1);
 
         const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
@@ -31,58 +42,41 @@ export const Higher = () => {
         setRandB(b)
 
         setRandArray([a, b].sort((a, b) => a - b));
-    }
+    }, [ setRight, setWrong ])
 
-    const reset = () => {
-        setRight(false);
-        setWrong(false);
-        
+    useEffect(() => {
+        (randA && randB) && synthSpeak({
+            message: `${title}, ${randA} or ${randB}`,
+            sounds: sounds && started
+        })
+    }, [ randA, randB, sounds, started ]);
+
+    useEffect(() => {
+        right && synthSpeak({
+            status: "right",
+            message: `${ randArray[1] } is higher than ${ randArray[0] }`,
+            sounds: sounds && started
+        })
+    }, [ right, randArray, sounds, started ]);
+
+    useEffect(() => {
+        wrong && synthSpeak({ status: "wrong", sounds: sounds && started })
+    }, [ wrong, sounds, started ]);
+
+    useEffect(() => {
         initialize();
-    }
-
-    useEffect(() => {
-        (randA && randB) && synthSpeak(`Pick the higher number. ${randA} or ${randB}`)
-    }, [ randA, randB ]);
-
-    useEffect(() => {
-        right && synthSpeak(`Correct! ${ randArray[1] } is higher than ${ randArray[0] }`, "happy")
-    }, [ right, randArray ]);
-
-    useEffect(() => {
-        wrong && synthSpeak("Not quite. Try again.", "sad")
-    }, [ wrong ]);
-
-    useEffect(() => {
-        initialize();
-    }, []);
+    }, [ initialize ]);
 
     return (
-        <div className="text-center">
-            <h1 className="text-6xl">Pick the higher number</h1>
-            <p className="text-5xl mt-12">
-                <button className="bg-blue-900 hover:bg-blue-800 text-blue-200 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isHigherA }>{ randA }</button>
-                <button className="bg-yellow-200 hover:bg-yellow-300 text-yellow-800 hover:text-yellow-700 font-bold mx-8 py-2 px-4 w-24 rounded" type="button" onClick={ isHigherB }>{ randB }</button>
-            </p>
-            {
-                (!right && !wrong) &&
-                <p className="text-3xl my-4 p-12">What do you think?</p>
-            }
-            {
-                right &&
-                <p className="text-3xl my-4 p-12 rounded">
-                    <span className="font-bold text-green-800">✔ Correct!</span> { randArray[1] } <span className="font-bold">is</span> higher than { randArray[0] }
-                </p>
-            }
-            {
-                wrong &&
-                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
-            }
-
-            <p className="text-3xl mt-4">
-                <button className="bg-orange-900 hover:bg-orange-800 text-orange-200 hover:text-orange-100 font-bold py-2 px-4 rounded shadow" type="button" onClick={ reset }>Try new numbers</button>
+        <Exercise title={ title } init={ initialize }>
+            <p className="question question--no-buttons">
+                <button className="question__button question__button--primary" type="button" onClick={ isHigherA }>{ randA }</button>
+                <button className="question__button question__button--secondary" type="button" onClick={ isHigherB }>{ randB }</button>
             </p>
 
-            <NextExercise currentExercise="higher" />
-        </div>
+            <Status>
+                { randArray[1] } <span className="font-bold">is</span> higher than { randArray[0] }
+            </Status>
+        </Exercise>
     );
 };

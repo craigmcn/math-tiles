@@ -3,3 +3,101 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .menu {
+        @apply text-sm
+    }
+
+    .menu__item {
+        @apply text-blue-500 block mt-4 mr-4
+    }
+    .menu__item:hover {
+        @apply text-blue-800
+    }
+
+    .question {
+        @apply text-3xl mt-2
+    }
+    .question--no-buttons {
+        @apply my-4
+    }
+
+    .question__button {
+        @apply inline-block font-bold mx-4 py-2 px-4 w-20 rounded
+    }
+
+    .question__button--primary {
+        @apply bg-pink-900 text-pink-200
+    }
+    .question__button--primary:hover {
+        @apply bg-pink-800 text-pink-100
+    }
+
+    .question__button--secondary {
+        @apply bg-yellow-200 text-yellow-800
+    }
+    .question__button--secondary:hover {
+        @apply bg-yellow-300 text-yellow-700
+    }
+
+    .options {
+        @apply text-xl mt-2
+    }
+
+    .options__button {
+        @apply bg-gray-200 text-gray-900 font-bold mx-3 mt-2 py-2 px-4 w-16 rounded
+    }
+    .options__button:hover {
+        @apply bg-blue-800 text-blue-100
+    }
+
+    .status-text {
+        @apply text-xl my-1 p-4;
+    }
+
+    @screen md {
+        .question {
+            @apply text-4xl
+        }
+        .options {
+            @apply text-4xl
+        }
+        .options__button {
+            @apply w-20
+        }
+    }
+
+    @screen lg {
+        .menu {
+            @apply flex-grow
+        }
+        .menu__item {
+            @apply inline-block mt-0
+        }
+
+        .question {
+            @apply text-5xl mt-8
+        }
+        .question--no-buttons {
+            @apply my-12
+        }
+
+        .question__button {
+            @apply mx-8 w-32
+        }
+
+        .options {
+            @apply text-4xl mt-8
+        }
+        .options__button {
+            @apply mx-8 mt-4
+        }
+
+        .status-text {
+            @apply text-3xl my-4 p-12;
+        }
+    }
+
+}

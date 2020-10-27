@@ -21,24 +21,38 @@ export const shuffle = array => {
     return array;
 }
 
-export const synthSpeak = (text, mood = "default") => {
+export const synthSpeak = ({ message, status, sounds }) => {
   speechSynthesis.cancel()
 
-  const utterance = new SpeechSynthesisUtterance(text)
+  if (sounds) {
 
-  utterance.rate = 1.2
-
-  if (mood === "happy") {
-    utterance.rate = 1.3
-    utterance.pitch = 1.5
+    let text = message
+  
+    if (status === "right") {
+      // text = "Correct, " + text
+      text = "Correct"
+    }
+  
+    if (status === "wrong") {
+      text = "Not quite, try again"
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(text)
+  
+    utterance.rate = 1.2
+  
+    if (status === "right") {
+      utterance.rate = 1.3
+      utterance.pitch = 1.4
+    }
+  
+    if (status === "wrong") {
+      utterance.rate = 1.3
+      utterance.pitch = 0.8
+    }
+  
+    speechSynthesis.speak(utterance)
   }
-
-  if (mood === "sad") {
-    utterance.rate = 1.4
-    utterance.pitch = 0.7
-  }
-
-  speechSynthesis.speak(utterance)
 }
 
 export const randomInteger = (min, max) => {

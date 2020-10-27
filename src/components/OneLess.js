@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { shuffle, synthSpeak } from "../utils";
-import { NextExercise } from "./NextExercise";
+import { StoreContext } from '../store'
+import { Exercise } from "./Exercise";
+import { Status } from "./Status";
 
 export const OneLess = () => {
+
+    const {
+        sounds: [ sounds ],
+        started: [ started ],
+        right: [ right, setRight ],
+        wrong: [ wrong, setWrong ]
+    } = useContext(StoreContext)
+
+    const title = "Pick the number that is 1 less than"
 
     const [ randA, setRandA ] = useState(0)
     const [ randArray, setRandArray ] = useState([])
     const [ selection, setSelection ] = useState(0)
-
-    const [ right, setRight ] = useState(false);
-    const [ wrong, setWrong ] = useState(false);
 
     const isOneLess = num => () => {
         setSelection(num)
@@ -17,7 +25,10 @@ export const OneLess = () => {
         setWrong(num !== randA - 1);
     }
 
-    const initialize = () => {
+    const initialize = useCallback(() => {
+        setRight(false);
+        setWrong(false);
+
         const numbers = Array.from(Array(11), (_, i) => i + 2);
         const optionNumbers = [];
 
@@ -35,66 +46,49 @@ export const OneLess = () => {
         setRandA(a)
 
         setRandArray(shuffle(optionNumbers));
-    }
+    }, [ setRight, setWrong ])
 
-    const reset = () => {
-        setRight(false);
-        setWrong(false);
-        
+    useEffect(() => {
+        randA > 0 && synthSpeak({
+            message: `${title} ${randA}`,
+            sounds: sounds && started
+        })
+    }, [ randA, sounds, started ]);
+
+    useEffect(() => {
+        right && synthSpeak({
+            status: "right",
+            message: `${ selection } is 1 less than ${ randA }`,
+            sounds: sounds && started
+        })
+    }, [ right, selection, randA, sounds, started ]);
+
+    useEffect(() => {
+        wrong && synthSpeak({ status: "wrong", sounds: sounds && started })
+    }, [ wrong, sounds, started ]);
+
+    useEffect(() => {
         initialize();
-    }
-
-    useEffect(() => {
-        randA > 0 && synthSpeak(`Pick the number that is 1 less than ${randA}`)
-    }, [ randA ]);
-
-    useEffect(() => {
-        right && synthSpeak(`Correct! ${ selection } is 1 less than ${ randA }`, "happy")
-    }, [ right, selection, randA ]);
-
-    useEffect(() => {
-        wrong && synthSpeak("Not quite. Try again.", "sad")
-    }, [ wrong ]);
-
-    useEffect(() => {
-        initialize();
-    }, []);
+    }, [ initialize ]);
 
     return (
-        <div className="text-center">
-            <h1 className="text-6xl">Pick the number that is 1 less than &hellip;</h1>
+        <Exercise title={ title } init={ initialize }>
 
-            <p className="text-6xl mt-8">
-                <span className="inline-block bg-pink-900 hover:bg-pink-800 text-pink-200 hover:text-pink-100 font-bold mx-8 py-2 px-4 w-32 rounded">{ randA }</span>
+            <p className="question">
+                <span className="question__button question__button--primary">{ randA }</span>
             </p>
 
-            <p className="text-4xl mt-12">
+            <p className="options">
                 {
                     randArray.map((num, i) => (
-                        <button key={ i } className="bg-gray-200 hover:bg-blue-800 text-gray-900 hover:text-blue-100 font-bold mx-8 py-2 px-4 w-20 rounded" type="button" onClick={ isOneLess(num) }>{ num }</button>
+                        <button key={ i } className="options__button" type="button" onClick={ isOneLess(num) }>{ num }</button>
                     ))
                 }
             </p>
-            {
-                (!right && !wrong) &&
-                <p className="text-3xl my-4 p-12">What do you think?</p>
-            }
-            {
-                right &&
-                <p className="text-3xl my-4 p-12 rounded">
-                    <span className="font-bold text-green-800">✔ Correct!</span> { selection } <span className="font-bold">is</span> one less than { randA }
-                </p>
-            }
-            {
-                wrong &&
-                <p className="text-3xl text-purple-900 my-4 p-12 rounded">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></p>
-            }
 
-            <p className="text-3xl mt-4">
-                <button className="bg-orange-900 hover:bg-orange-800 text-orange-200 hover:text-orange-100 font-bold py-2 px-4 rounded shadow" type="button" onClick={ reset }>Try new numbers</button>
-            </p>
-
-            <NextExercise currentExercise="one-less" />
-        </div>
+            <Status>
+                { selection } <span className="font-bold">is</span> one less than { randA }
+            </Status>
+        </Exercise>
     )
 }
