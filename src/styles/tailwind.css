@@ -1,7 +1,8 @@
-/* TODO For production: https://daveceddia.com/tailwind-create-react-app/ */
-
+/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+/* purgecss end ignore */
+
 @tailwind utilities;
 
 @layer components {
