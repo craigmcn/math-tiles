@@ -9,6 +9,7 @@ import './App.css';
 import { Menu } from './components/Menu';
 import { Start } from './components/Start';
 import { Higher } from './components/Higher';
+import { Lower } from './components/Lower';
 import { OneMore } from './components/OneMore';
 import { OneLess } from './components/OneLess';
 import { Between } from './components/Between';
@@ -40,6 +41,9 @@ const App = () => (
           </Route>
           <Route path="/higher">
             <Higher />
+          </Route>
+          <Route path="/lower">
+            <Lower />
           </Route>
           <Route path="/">
             <Start />

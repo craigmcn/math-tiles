@@ -1,6 +1,6 @@
 export const numbers = Array(12).fill(1).map((_, i) => i + 1);
 
-export const exercises = [ "higher", "one-more", "one-less", "between", "add", "subtract" ]
+export const exercises = [ "higher", "lower", "one-more", "one-less", "between", "add", "subtract" ]
 
 export const shuffle = array => {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -22,6 +22,7 @@ export const shuffle = array => {
 }
 
 export const synthSpeak = ({ message, status, sounds }) => {
+  console.log("synthSpeak", message, status, sounds);
   speechSynthesis.cancel()
 
   if (sounds) {

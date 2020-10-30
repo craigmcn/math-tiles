@@ -44,6 +44,8 @@ export const Menu = () => {
                 <div className="menu">
                 
                     <Link className="menu__item" to="/higher" onClick={ closeMenu }>Higher</Link>
+                
+                    <Link className="menu__item" to="/lower" onClick={ closeMenu }>Lower</Link>
 
                     <Link className="menu__item" to="/one-more" onClick={ closeMenu }>One more</Link>
                     
