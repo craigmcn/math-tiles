@@ -5,14 +5,16 @@ export const StoreContext = createContext(null)
 
 export default ({ children }) => {
 
-  const  [ sounds, setSounds ] = useLocalStorage("sounds", false)
-  const  [ started, setStarted ] = useSessionStorage("started", false)
-  const  [ right, setRight ] = useState(false)
-  const  [ wrong, setWrong ] = useState(false)
+  const [ sounds, setSounds ] = useLocalStorage("sounds", false)
+  const [ started, setStarted ] = useSessionStorage("started", false)
+  const [ menuOpen, setMenuOpen ] = useState(false);
+  const [ right, setRight ] = useState(false)
+  const [ wrong, setWrong ] = useState(false)
 
   const store = {
     sounds: [sounds, setSounds],
     started: [started, setStarted],
+    menu: [menuOpen, setMenuOpen],
     right: [right, setRight],
     wrong: [wrong, setWrong],
   }

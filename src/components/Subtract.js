@@ -62,7 +62,7 @@ export const Subtract = () => {
     }, [ randA, randB, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && selection && randA && randB) && synthSpeak({
             status: "right",
             message: `${ selection } is equal to ${randA} minus ${randB}`,
             sounds: sounds && started

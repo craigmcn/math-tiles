@@ -59,7 +59,7 @@ export const Between = () => {
     }, [ randA, randB, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && selection && randA && randB) && synthSpeak({
             status: "right",
             message: `${ selection } is between ${randA} and ${randB}`,
             sounds: sounds && started

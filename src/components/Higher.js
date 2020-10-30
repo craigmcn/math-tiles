@@ -52,7 +52,7 @@ export const Higher = () => {
     }, [ randA, randB, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && randArray.length) && synthSpeak({
             status: "right",
             message: `${ randArray[1] } is higher than ${ randArray[0] }`,
             sounds: sounds && started

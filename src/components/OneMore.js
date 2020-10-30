@@ -56,7 +56,7 @@ export const OneMore = () => {
     }, [ randA, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && selection && randA) && synthSpeak({
             status: "right",
             message: `${ selection } is 1 more than ${ randA }`,
             sounds: sounds && started

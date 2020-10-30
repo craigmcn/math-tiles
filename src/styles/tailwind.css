@@ -11,10 +11,10 @@
     }
 
     .menu__item {
-        @apply text-blue-500 block mt-4 mr-4
+        @apply text-blue-700 block mt-4 mr-4
     }
     .menu__item:hover {
-        @apply text-blue-800
+        @apply text-blue-900
     }
 
     .question {
@@ -70,13 +70,6 @@
     }
 
     @screen lg {
-        .menu {
-            @apply flex-grow
-        }
-        .menu__item {
-            @apply inline-block mt-0
-        }
-
         .question {
             @apply text-5xl mt-8
         }

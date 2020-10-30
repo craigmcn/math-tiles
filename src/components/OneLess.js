@@ -56,7 +56,7 @@ export const OneLess = () => {
     }, [ randA, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && selection && randA) && synthSpeak({
             status: "right",
             message: `${ selection } is 1 less than ${ randA }`,
             sounds: sounds && started

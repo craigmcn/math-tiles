@@ -61,7 +61,7 @@ export const Add = () => {
     }, [ randA, randB, sounds, started ]);
 
     useEffect(() => {
-        right && synthSpeak({
+        (right && selection && randA && randB) && synthSpeak({
             status: "right",
             message: `${ selection } is equal to ${randA} plus ${randB}`,
             sounds: sounds && started
