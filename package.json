@@ -14,7 +14,7 @@
     "tailwindcss": "^2.2.7"
   },
   "scripts": {
-    "build:tailwind": "tailwindcss build src/styles/tailwind.css -o src/styles/tailwind.output.css",
+    "build:tailwind": "tailwindcss build -i src/styles/tailwind.css -o src/styles/tailwind.output.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind",
     "prebuild:netlify": "npm run build:tailwind",
@@ -41,8 +41,10 @@
   },
   "peerDependencies": {
     "@testing-library/dom": "^7.26.3",
-    "autoprefixer": "^10.3.1",
-    "postcss": "^8.3.6",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6"
   }
 }
