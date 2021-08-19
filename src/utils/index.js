@@ -22,7 +22,7 @@ export const shuffle = array => {
 }
 
 export const synthSpeak = ({ message, status, sounds }) => {
-  console.log("synthSpeak", message, status, sounds);
+  // console.log("synthSpeak", message, status, sounds); // DEBUG
   speechSynthesis.cancel()
 
   if (sounds) {

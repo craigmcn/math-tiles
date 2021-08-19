@@ -5,7 +5,8 @@ export const MenuButton = () => {
 
     const { menu: [ menuOpen, setMenuOpen ] } = useContext(StoreContext);
 
-    const openMenu = () => {
+    const openMenu = e => {
+        e.stopPropagation()
         setMenuOpen(true)
     }
 
