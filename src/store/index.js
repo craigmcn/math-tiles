@@ -3,7 +3,7 @@ import { useLocalStorage, useSessionStorage } from "../hooks/useBrowserStorage"
 
 export const StoreContext = createContext(null)
 
-export default ({ children }) => {
+const StoreProvider = ({ children }) => {
 
   const [ sounds, setSounds ] = useLocalStorage("sounds", false)
   const [ started, setStarted ] = useSessionStorage("started", false)
@@ -21,3 +21,5 @@ export default ({ children }) => {
 
   return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
 }
+
+export default StoreProvider
