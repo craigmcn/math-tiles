@@ -1,17 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react'
 import { StoreContext } from '../store'
 
 export const MenuButton = () => {
+    const { menu: [ menuOpen, setMenuOpen ] } = useContext(StoreContext)
 
-    const { menu: [ menuOpen, setMenuOpen ] } = useContext(StoreContext);
-
-    const openMenu = e => {
+    const openMenu = (e) => {
         e.stopPropagation()
         setMenuOpen(true)
     }
 
     return (
-        <div className={ `${ menuOpen ? "hidden" : "block" } absolute top-1 left-1` }>
+        <div className={ `${menuOpen ? 'hidden' : 'block'} absolute top-1 left-1` }>
             <button className="flex items-center px-2 py-1 border rounded hover:bg-gray-200 hover:text-gray-900" onClick={ openMenu }>
                 <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <title>Menu</title>
@@ -19,5 +18,5 @@ export const MenuButton = () => {
                 </svg>
             </button>
         </div>
-    );
-};
+    )
+}

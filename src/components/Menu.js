@@ -1,18 +1,17 @@
-import React, { useCallback, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { StoreContext } from '../store'
 
 export const Menu = () => {
-
     const {
         sounds: [ sounds, setSounds ],
         started: [ started, setStarted ],
-        menu: [ menuOpen, setMenuOpen ]
-    } = useContext(StoreContext);
+        menu: [ menuOpen, setMenuOpen ],
+    } = useContext(StoreContext)
 
     const closeMenu = useCallback(() => {
         setMenuOpen(false)
-    }, [ setMenuOpen ]);
+    }, [ setMenuOpen ])
 
     const toggleSounds = () => {
         setSounds(!sounds)
@@ -23,20 +22,19 @@ export const Menu = () => {
         setStarted(true)
     }, [ sounds, setStarted ])
 
-    
     useEffect(() => {
-        document.body.addEventListener('click', closeMenu );
+        document.body.addEventListener('click', closeMenu)
 
         return () => {
-            window.removeEventListener('click', closeMenu );
-        } 
-    },[ closeMenu ]);
+            window.removeEventListener('click', closeMenu)
+        }
+    }, [ closeMenu ])
 
     return (
-        <nav className={ `${ menuOpen ? "translate-x-0" : "-translate-x-full" } transform top-0 left-0 w-64 bg-gray-100 border-r border-gray-300 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30` } onClick={ closeMenu }>
+        <nav className={ `${menuOpen ? 'translate-x-0' : '-translate-x-full'} transform top-0 left-0 w-64 bg-gray-100 border-r border-gray-300 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30` } onClick={ closeMenu }>
             <div className="flex items-center flex-shrink-0 justify-between bg-gray-300 p-2">
                 <h1 className="font-bold text-2xl">Math Tiles</h1>
-                
+
                 <button className="flex items-center bg-gray-100 hover:text-blue-900 hover:bg-blue-100 px-2 py-1 border rounded relative" onClick={ closeMenu }>
                     <svg className="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                         <title>Close</title>
@@ -44,30 +42,30 @@ export const Menu = () => {
                     </svg>
                 </button>
             </div>
-            
+
             <div className="pt-4 px-2">
 
                 <h2 className="uppercase">Exercises</h2>
 
                 <ul className="menu">
-                
+
                     <Link className="menu__item" to="/higher" onClick={ closeMenu }>Higher</Link>
-                
+
                     <Link className="menu__item" to="/lower" onClick={ closeMenu }>Lower</Link>
 
                     <Link className="menu__item" to="/one-more" onClick={ closeMenu }>One more</Link>
-                    
+
                     <Link className="menu__item" to="/one-less" onClick={ closeMenu }>One less</Link>
-                    
+
                     <Link className="menu__item" to="/between" onClick={ closeMenu }>Between</Link>
-                    
+
                     <Link className="menu__item" to="/add" onClick={ closeMenu }>Add</Link>
-                    
+
                     <Link className="menu__item" to="/subtract" onClick={ closeMenu }>Subtract</Link>
 
                 </ul>
             </div>
-            
+
             <div className="border-t mt-4 pt-4 px-2">
 
                 <h2 className="uppercase">Settings</h2>
@@ -88,11 +86,11 @@ export const Menu = () => {
                         </svg>
                     }
                     <span className="pl-4">
-                        { (!sounds || !started) && "Turn sound on" }
-                        { (sounds && started) && "Turn sound off" }
+                        { (!sounds || !started) && 'Turn sound on' }
+                        { (sounds && started) && 'Turn sound off' }
                     </span>
                 </button>
             </div>
         </nav>
-    );
-};
+    )
+}

@@ -1,20 +1,20 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { StoreContext } from '../store'
 
-export const Status = (props) => {
-
-    const { children } = props 
+const Status = (props) => {
+    const { children } = props
 
     const {
         right: [ right ],
-        wrong: [ wrong ]
+        wrong: [ wrong ],
     } = useContext(StoreContext)
 
     return (
         <p className="status-text">
             {
-                (!right && !wrong) && "What do you think?"
-                
+                (!right && !wrong) && 'What do you think?'
+
             }
             { right &&
                 <Fragment>
@@ -24,6 +24,11 @@ export const Status = (props) => {
             { wrong && <span className="text-purple-900">Not quite. Try again. <span role="img" aria-hidden="true">👍</span></span> }
         </p>
 
-        
     )
 }
+
+Status.propTypes = {
+    children: PropTypes.node,
+}
+
+export { Status }

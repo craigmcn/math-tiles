@@ -1,0 +1,43 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
+    },
+    "editor.formatOnSave": false,
+    "[html]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[css]": {
+        "editor.formatOnSave": true,
+    },
+    "css.validate": false,
+    "editor.detectIndentation": false,
+    "eslint.validate": [
+        "javascript"
+    ],
+    "stylelint.validate": [
+        "css",
+        "html",
+        "postcss",
+    ],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "cSpell.words": [
+        "browserslist",
+        "prebuild",
+        "prestart",
+        "tailwindcss",
+        "webfonts",
+        "parens"
+    ],
+    "cSpell.ignorePaths": [
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders",
+        ".eslintrc.json",
+        "yarn.lock"
+    ]
+}

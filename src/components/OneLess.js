@@ -1,19 +1,18 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
-import { shuffle, synthSpeak } from "../utils";
+import React, { useContext, useState, useEffect, useCallback } from 'react'
+import { shuffle, synthSpeak } from '../utils'
 import { StoreContext } from '../store'
-import { Exercise } from "./Exercise";
-import { Status } from "./Status";
+import { Exercise } from './Exercise'
+import { Status } from './Status'
 
 export const OneLess = () => {
-
     const {
         sounds: [ sounds ],
         started: [ started ],
         right: [ right, setRight ],
-        wrong: [ wrong, setWrong ]
+        wrong: [ wrong, setWrong ],
     } = useContext(StoreContext)
 
-    const title = "Pick the number that is 1 less than"
+    const title = 'Pick the number that is 1 less than'
 
     const [ randA, setRandA ] = useState(0)
     const [ randArray, setRandArray ] = useState([])
@@ -21,55 +20,55 @@ export const OneLess = () => {
 
     const isOneLess = num => () => {
         setSelection(num)
-        setRight(num === randA - 1);
-        setWrong(num !== randA - 1);
+        setRight(num === randA - 1)
+        setWrong(num !== randA - 1)
     }
 
     const initialize = useCallback(() => {
-        setRight(false);
-        setWrong(false);
+        setRight(false)
+        setWrong(false)
 
-        const numbers = Array.from(Array(11), (_, i) => i + 2);
-        const optionNumbers = [];
+        const numbers = Array.from(Array(11), (_, i) => i + 2)
+        const optionNumbers = []
 
-        const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+        const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
 
         optionNumbers.push(a - 1)
-            
+
         while (optionNumbers.length < 6) {
-            const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+            const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
             if (!optionNumbers.includes(optionNumber)) {
                 optionNumbers.push(optionNumber)
             }
         }
-        
+
         setRandA(a)
 
-        setRandArray(shuffle(optionNumbers));
+        setRandArray(shuffle(optionNumbers))
     }, [ setRight, setWrong ])
 
     useEffect(() => {
         randA > 0 && synthSpeak({
             message: `${title} ${randA}`,
-            sounds: sounds && started
+            sounds: sounds && started,
         })
-    }, [ randA, sounds, started ]);
+    }, [ randA, sounds, started ])
 
     useEffect(() => {
         (right && selection && randA) && synthSpeak({
-            status: "right",
-            message: `${ selection } is 1 less than ${ randA }`,
-            sounds: sounds && started
+            status: 'right',
+            message: `${selection} is 1 less than ${randA}`,
+            sounds: sounds && started,
         })
-    }, [ right, selection, randA, sounds, started ]);
+    }, [ right, selection, randA, sounds, started ])
 
     useEffect(() => {
-        wrong && synthSpeak({ status: "wrong", sounds: sounds && started })
-    }, [ wrong, sounds, started ]);
+        wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
+    }, [ wrong, sounds, started ])
 
     useEffect(() => {
-        initialize();
-    }, [ initialize ]);
+        initialize()
+    }, [ initialize ])
 
     return (
         <Exercise title={ title } init={ initialize }>

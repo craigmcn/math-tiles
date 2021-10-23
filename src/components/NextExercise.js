@@ -1,11 +1,10 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { exercises } from "../utils"
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { exercises } from '../utils'
 
 export const NextExercise = () => {
-
     const location = useLocation()
-    const currentExercise = location.pathname.substring(1);
+    const currentExercise = location.pathname.substring(1)
 
     const newExercises = [ ...exercises ]
     newExercises.splice(exercises.indexOf(currentExercise), 1)

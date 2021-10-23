@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect } from 'react'
 
 /**
  * usePrevious
@@ -7,14 +7,13 @@ import { useRef, useEffect } from "react"
  * @param value
  */
 export const usePrevious = (value) => {
-
-    const ref = useRef(null);
+    const ref = useRef(null)
 
     useEffect(() => {
-      ref.current = value;
-    });
+        ref.current = value
+    })
 
-    return ref.current;
-};
+    return ref.current
+}
 
-export default usePrevious;
+export default usePrevious

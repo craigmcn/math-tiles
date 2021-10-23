@@ -1,8 +1,8 @@
-import React from "react";
-import { Controls } from "./Controls";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Controls } from './Controls'
 
-export const Exercise = (props) => {
-
+const Exercise = (props) => {
     const { title, init, children } = props
 
     return (
@@ -13,5 +13,13 @@ export const Exercise = (props) => {
 
             <Controls init={ init } />
         </div>
-    );
-};
+    )
+}
+
+Exercise.propTypes = {
+    title: PropTypes.string.isRequired,
+    init: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+}
+
+export { Exercise }
