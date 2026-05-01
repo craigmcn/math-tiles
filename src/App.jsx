@@ -5,7 +5,6 @@ import {
     Route,
 } from 'react-router-dom'
 import StoreProvider from './store'
-import './App.css'
 import { MenuButton } from './components/MenuButton'
 import { Menu } from './components/Menu'
 import { Start } from './components/Start'
