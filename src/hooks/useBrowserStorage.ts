@@ -28,7 +28,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, React.Disp
 export const useSessionStorage = <T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] => {
     const [ storedValue, setStoredValue ] = useState<T>(() => {
         try {
-            const item = window.localStorage.getItem(key)
+            const item = window.sessionStorage.getItem(key)
             return item ? JSON.parse(item) : initialValue
         } catch (error) {
             console.warn(error)
