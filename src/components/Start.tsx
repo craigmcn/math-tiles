@@ -1,19 +1,19 @@
 import { useCallback, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { StoreContext } from '../store'
 import { exercises } from '../utils'
 
 export const Start = () => {
     const { started: [ , setStarted ] } = useContext(StoreContext)
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const start = useCallback(() => {
         setStarted(true)
 
         const exercise = exercises[Math.floor(Math.random() * exercises.length)]
-        history.push(`/${exercise}`)
-    }, [ setStarted, history ])
+        navigate(`/${exercise}`)
+    }, [ setStarted, navigate ])
 
     return (
         <div className="flex justify-center mt-16">

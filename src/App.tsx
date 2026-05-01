@@ -1,6 +1,6 @@
 import {
     HashRouter as Router,
-    Switch,
+    Routes,
     Route,
 } from 'react-router-dom'
 import StoreProvider from './store'
@@ -23,32 +23,16 @@ const App = () => (
                 <MenuButton />
                 <Menu />
 
-                <Switch>
-                    <Route path="/one-more">
-                        <OneMore />
-                    </Route>
-                    <Route path="/one-less">
-                        <OneLess />
-                    </Route>
-                    <Route path="/between">
-                        <Between />
-                    </Route>
-                    <Route path="/add">
-                        <Add />
-                    </Route>
-                    <Route path="/subtract">
-                        <Subtract />
-                    </Route>
-                    <Route path="/higher">
-                        <Higher />
-                    </Route>
-                    <Route path="/lower">
-                        <Lower />
-                    </Route>
-                    <Route path="/">
-                        <Start />
-                    </Route>
-                </Switch>
+                <Routes>
+                    <Route path="/one-more" element={<OneMore />} />
+                    <Route path="/one-less" element={<OneLess />} />
+                    <Route path="/between" element={<Between />} />
+                    <Route path="/add" element={<Add />} />
+                    <Route path="/subtract" element={<Subtract />} />
+                    <Route path="/higher" element={<Higher />} />
+                    <Route path="/lower" element={<Lower />} />
+                    <Route path="/" element={<Start />} />
+                </Routes>
 
             </div>
         </Router>

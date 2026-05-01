@@ -6,7 +6,7 @@
     "@tailwindcss/vite": "^4",
     "react": "^19",
     "react-dom": "^19",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6",
     "tailwindcss": "^4"
   },
   "scripts": {
