@@ -5,11 +5,15 @@
 /.pnp
 .pnp.js
 
+# yarn 4
+.yarn/install-state.gz
+
 # testing
 /coverage
 
 # production
 /build
+/dist
 /netlify
 
 # misc
