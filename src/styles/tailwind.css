@@ -1,9 +1,4 @@
-/* purgecss start ignore */
-@tailwind base;
-@tailwind components;
-/* purgecss end ignore */
-
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer components {
 
@@ -58,7 +53,7 @@
         @apply text-xl my-1 p-4;
     }
 
-    @screen md {
+    @media (width >= 768px) {
         .question {
             @apply text-4xl
         }
@@ -70,7 +65,7 @@
         }
     }
 
-    @screen lg {
+    @media (width >= 1024px) {
         .question {
             @apply text-5xl mt-8
         }
