@@ -1,17 +1,26 @@
 import React, { createContext, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useLocalStorage, useSessionStorage } from '../hooks/useBrowserStorage'
 
-const StoreContext = createContext(null)
+type StateTuple<T> = [T, React.Dispatch<React.SetStateAction<T>>]
 
-const StoreProvider = ({ children }) => {
-    const [ sounds, setSounds ] = useLocalStorage('sounds', false)
-    const [ started, setStarted ] = useSessionStorage('started', false)
+type Store = {
+    sounds: StateTuple<boolean>
+    started: StateTuple<boolean>
+    menu: StateTuple<boolean>
+    right: StateTuple<boolean>
+    wrong: StateTuple<boolean>
+}
+
+const StoreContext = createContext<Store>(null as unknown as Store)
+
+const StoreProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+    const [ sounds, setSounds ] = useLocalStorage<boolean>('sounds', false)
+    const [ started, setStarted ] = useSessionStorage<boolean>('started', false)
     const [ menuOpen, setMenuOpen ] = useState(false)
     const [ right, setRight ] = useState(false)
     const [ wrong, setWrong ] = useState(false)
 
-    const store = {
+    const store: Store = {
         sounds: [ sounds, setSounds ],
         started: [ started, setStarted ],
         menu: [ menuOpen, setMenuOpen ],
@@ -20,10 +29,6 @@ const StoreProvider = ({ children }) => {
     }
 
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
-}
-
-StoreProvider.propTypes = {
-    children: PropTypes.node.isRequired,
 }
 
 export { StoreProvider as default, StoreContext }

@@ -1,10 +1,11 @@
 import React, { Fragment, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { StoreContext } from '../store'
 
-const Status = (props) => {
-    const { children } = props
+interface StatusProps {
+    children?: React.ReactNode
+}
 
+const Status = ({ children }: StatusProps) => {
     const {
         right: [ right ],
         wrong: [ wrong ],
@@ -25,10 +26,6 @@ const Status = (props) => {
         </p>
 
     )
-}
-
-Status.propTypes = {
-    children: PropTypes.node,
 }
 
 export { Status }

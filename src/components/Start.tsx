@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { StoreContext } from '../store'
 import { exercises } from '../utils'

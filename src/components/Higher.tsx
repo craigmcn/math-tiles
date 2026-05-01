@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { synthSpeak } from '../utils'
 import { StoreContext } from '../store'
 import { Exercise } from './Exercise'
 import { Status } from './Status'
 
-export const Lower = () => {
+export const Higher = () => {
     const {
         sounds: [ sounds ],
         started: [ started ],
@@ -12,20 +12,20 @@ export const Lower = () => {
         wrong: [ wrong, setWrong ],
     } = useContext(StoreContext)
 
-    const title = 'Pick the lower number'
+    const title = 'Pick the higher number'
 
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
-    const [ randArray, setRandArray ] = useState([])
+    const [ randArray, setRandArray ] = useState<number[]>([])
 
-    const isLowerA = () => {
-        setRight(randA < randB)
-        setWrong(randA > randB)
+    const isHigherA = () => {
+        setRight(randA > randB)
+        setWrong(randA < randB)
     }
 
-    const isLowerB = () => {
-        setRight(randB < randA)
-        setWrong(randB > randA)
+    const isHigherB = () => {
+        setRight(randB > randA)
+        setWrong(randB < randA)
     }
 
     const initialize = useCallback(() => {
@@ -53,7 +53,7 @@ export const Lower = () => {
     useEffect(() => {
         (right && randArray.length) && synthSpeak({
             status: 'right',
-            message: `${randArray[1]} is lower than ${randArray[0]}`,
+            message: `${randArray[1]} is higher than ${randArray[0]}`,
             sounds: sounds && started,
         })
     }, [ right, randArray, sounds, started ])
@@ -69,12 +69,12 @@ export const Lower = () => {
     return (
         <Exercise title={ title } init={ initialize }>
             <p className="question question--no-buttons">
-                <button className="question__button question__button--primary" type="button" onClick={ isLowerA }>{ randA }</button>
-                <button className="question__button question__button--secondary" type="button" onClick={ isLowerB }>{ randB }</button>
+                <button className="question__button question__button--primary" type="button" onClick={ isHigherA }>{ randA }</button>
+                <button className="question__button question__button--secondary" type="button" onClick={ isHigherB }>{ randB }</button>
             </p>
 
             <Status>
-                { randArray[1] } <span className="font-bold">is</span> lower than { randArray[0] }
+                { randArray[1] } <span className="font-bold">is</span> higher than { randArray[0] }
             </Status>
         </Exercise>
     )

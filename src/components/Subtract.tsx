@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
-import { shuffle, synthSpeak } from '../utils'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { shuffle, synthSpeak, randomInteger } from '../utils'
 import { StoreContext } from '../store'
 import { Exercise } from './Exercise'
 import { Status } from './Status'
 
-export const OneLess = () => {
+export const Subtract = () => {
     const {
         sounds: [ sounds ],
         started: [ started ],
@@ -12,28 +12,33 @@ export const OneLess = () => {
         wrong: [ wrong, setWrong ],
     } = useContext(StoreContext)
 
-    const title = 'Pick the number that is 1 less than'
+    const title = 'How much is'
 
     const [ randA, setRandA ] = useState(0)
-    const [ randArray, setRandArray ] = useState([])
-    const [ selection, setSelection ] = useState(0)
+    const [ randB, setRandB ] = useState(0)
+    const [ randArray, setRandArray ] = useState<number[]>([])
+    const [ _selection, setSelection ] = useState(0)
 
-    const isOneLess = num => () => {
+    const isEqual = (num: number) => () => {
         setSelection(num)
-        setRight(num === randA - 1)
-        setWrong(num !== randA - 1)
+        setRight(num === randA - randB)
+        setWrong(num !== randA - randB)
     }
 
     const initialize = useCallback(() => {
         setRight(false)
         setWrong(false)
 
-        const numbers = Array.from(Array(11), (_, i) => i + 2)
-        const optionNumbers = []
+        const numbers = Array.from(Array(12), (_, i) => i + 1)
+        const optionNumbers: number[] = []
 
         const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
+        let b = randomInteger(1, 8)
+        while (b >= a) {
+            b = randomInteger(1, 8)
+        }
 
-        optionNumbers.push(a - 1)
+        optionNumbers.push(a - b)
 
         while (optionNumbers.length < 6) {
             const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
@@ -43,24 +48,25 @@ export const OneLess = () => {
         }
 
         setRandA(a)
+        setRandB(b)
 
         setRandArray(shuffle(optionNumbers))
     }, [ setRight, setWrong ])
 
     useEffect(() => {
-        randA > 0 && synthSpeak({
-            message: `${title} ${randA}`,
+        (randA && randB) && synthSpeak({
+            message: `${title} ${randA} minus ${randB}`,
             sounds: sounds && started,
         })
-    }, [ randA, sounds, started ])
+    }, [ randA, randB, sounds, started ])
 
     useEffect(() => {
-        (right && selection && randA) && synthSpeak({
+        (right && randA && randB) && synthSpeak({
             status: 'right',
-            message: `${selection} is 1 less than ${randA}`,
+            message: `${randA - randB} is equal to ${randA} minus ${randB}`,
             sounds: sounds && started,
         })
-    }, [ right, selection, randA, sounds, started ])
+    }, [ right, randA, randB, sounds, started ])
 
     useEffect(() => {
         wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
@@ -75,18 +81,20 @@ export const OneLess = () => {
 
             <p className="question">
                 <span className="question__button question__button--primary">{ randA }</span>
+                &minus;
+                <span className="question__button question__button--secondary">{ randB }</span>
             </p>
 
             <p className="options">
                 {
                     randArray.map((num, i) => (
-                        <button key={ i } className="options__button" type="button" onClick={ isOneLess(num) }>{ num }</button>
+                        <button key={ i } className="options__button" type="button" onClick={ isEqual(num) }>{ num }</button>
                     ))
                 }
             </p>
 
             <Status>
-                { selection } <span className="font-bold">is</span> one less than { randA }
+                { randA - randB } <span className="font-bold">is</span> equal to { randA } minus { randB }
             </Status>
         </Exercise>
     )

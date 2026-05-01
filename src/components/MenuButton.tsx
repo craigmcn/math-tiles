@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { StoreContext } from '../store'
 
 export const MenuButton = () => {
     const { menu: [ menuOpen, setMenuOpen ] } = useContext(StoreContext)
 
-    const openMenu = (e) => {
+    const openMenu = (e: React.MouseEvent) => {
         e.stopPropagation()
         setMenuOpen(true)
     }

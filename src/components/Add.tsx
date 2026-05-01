@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { randomInteger, shuffle, synthSpeak } from '../utils'
 import { StoreContext } from '../store'
 import { Exercise } from './Exercise'
@@ -16,10 +16,10 @@ export const Add = () => {
 
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
-    const [ randArray, setRandArray ] = useState([])
-    const [ selection, setSelection ] = useState(0)
+    const [ randArray, setRandArray ] = useState<number[]>([])
+    const [ _selection, setSelection ] = useState(0)
 
-    const isEqual = num => () => {
+    const isEqual = (num: number) => () => {
         setSelection(num)
         setRight(num === randA + randB)
         setWrong(num !== randA + randB)
@@ -32,7 +32,7 @@ export const Add = () => {
         const numbers = Array.from(Array(10), (_, i) => i + 1)
         const max = 20
         const maxNumbers = Array.from(Array(max), (_, i) => i + 1)
-        const optionNumbers = []
+        const optionNumbers: number[] = []
 
         const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
         const b = randomInteger(1, 10)
@@ -60,12 +60,12 @@ export const Add = () => {
     }, [ randA, randB, sounds, started ])
 
     useEffect(() => {
-        (right && selection && randA && randB) && synthSpeak({
+        (right && randA && randB) && synthSpeak({
             status: 'right',
-            message: `${selection} is equal to ${randA} plus ${randB}`,
+            message: `${randA + randB} is equal to ${randA} plus ${randB}`,
             sounds: sounds && started,
         })
-    }, [ right, selection, randA, randB, sounds, started ])
+    }, [ right, randA, randB, sounds, started ])
 
     useEffect(() => {
         wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
@@ -93,7 +93,7 @@ export const Add = () => {
             </p>
 
             <Status>
-                { selection } <span className="font-bold">is</span> equal to { randA } plus { randB }
+                { randA + randB } <span className="font-bold">is</span> equal to { randA } plus { randB }
             </Status>
         </Exercise>
     )

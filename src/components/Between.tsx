@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { shuffle, synthSpeak, randomInteger } from '../utils'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { shuffle, synthSpeak } from '../utils'
 import { StoreContext } from '../store'
 import { Exercise } from './Exercise'
 import { Status } from './Status'
 
-export const Subtract = () => {
+export const Between = () => {
     const {
         sounds: [ sounds ],
         started: [ started ],
@@ -12,17 +12,17 @@ export const Subtract = () => {
         wrong: [ wrong, setWrong ],
     } = useContext(StoreContext)
 
-    const title = 'How much is'
+    const title = 'Pick the number that is between'
 
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
-    const [ randArray, setRandArray ] = useState([])
-    const [ selection, setSelection ] = useState(0)
+    const [ randArray, setRandArray ] = useState<number[]>([])
+    const [ _selection, setSelection ] = useState(0)
 
-    const isEqual = num => () => {
+    const isBetween = (num: number) => () => {
         setSelection(num)
-        setRight(num === randA - randB)
-        setWrong(num !== randA - randB)
+        setRight(num === randA + 1)
+        setWrong(num !== randA + 1)
     }
 
     const initialize = useCallback(() => {
@@ -30,15 +30,12 @@ export const Subtract = () => {
         setWrong(false)
 
         const numbers = Array.from(Array(12), (_, i) => i + 1)
-        const optionNumbers = []
+        const optionNumbers: number[] = []
 
         const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
-        let b = randomInteger(1, 8)
-        while (b >= a) {
-            b = randomInteger(1, 8)
-        }
+        const b = a + 2
 
-        optionNumbers.push(a - b)
+        optionNumbers.push(a + 1)
 
         while (optionNumbers.length < 6) {
             const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
@@ -55,18 +52,18 @@ export const Subtract = () => {
 
     useEffect(() => {
         (randA && randB) && synthSpeak({
-            message: `${title} ${randA} minus ${randB}`,
+            message: `${title} ${randA} and ${randB}`,
             sounds: sounds && started,
         })
     }, [ randA, randB, sounds, started ])
 
     useEffect(() => {
-        (right && selection && randA && randB) && synthSpeak({
+        (right && randA && randB) && synthSpeak({
             status: 'right',
-            message: `${selection} is equal to ${randA} minus ${randB}`,
+            message: `${randA + 1} is between ${randA} and ${randB}`,
             sounds: sounds && started,
         })
-    }, [ right, selection, randA, randB, sounds, started ])
+    }, [ right, randA, randB, sounds, started ])
 
     useEffect(() => {
         wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
@@ -81,20 +78,19 @@ export const Subtract = () => {
 
             <p className="question">
                 <span className="question__button question__button--primary">{ randA }</span>
-                &minus;
                 <span className="question__button question__button--secondary">{ randB }</span>
             </p>
 
             <p className="options">
                 {
                     randArray.map((num, i) => (
-                        <button key={ i } className="options__button" type="button" onClick={ isEqual(num) }>{ num }</button>
+                        <button key={ i } className="options__button" type="button" onClick={ isBetween(num) }>{ num }</button>
                     ))
                 }
             </p>
 
             <Status>
-                { selection } <span className="font-bold">is</span> equal to { randA } minus { randB }
+                { randA + 1 } <span className="font-bold">is</span> between { randA } and { randB }
             </Status>
         </Exercise>
     )

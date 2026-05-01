@@ -2,8 +2,8 @@ export const numbers = Array(12).fill(1).map((_, i) => i + 1)
 
 export const exercises = [ 'higher', 'lower', 'one-more', 'one-less', 'between', 'add', 'subtract' ]
 
-export const shuffle = (array) => {
-    let currentIndex = array.length; let temporaryValue; let randomIndex
+export const shuffle = <T>(array: T[]): T[] => {
+    let currentIndex = array.length; let temporaryValue: T; let randomIndex: number
 
     // While there remain elements to shuffle...
     while (currentIndex !== 0) {
@@ -20,15 +20,13 @@ export const shuffle = (array) => {
     return array
 }
 
-export const synthSpeak = ({ message, status, sounds }) => {
-    // console.log("synthSpeak", message, status, sounds); // DEBUG
+export const synthSpeak = ({ message, status, sounds }: { message?: string; status?: 'right' | 'wrong'; sounds?: boolean | null }): void => {
     speechSynthesis.cancel()
 
     if (sounds) {
         let text = message
 
         if (status === 'right') {
-            // text = "Correct, " + text
             text = 'Correct'
         }
 
@@ -54,6 +52,6 @@ export const synthSpeak = ({ message, status, sounds }) => {
     }
 }
 
-export const randomInteger = (min, max) => {
+export const randomInteger = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }

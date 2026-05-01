@@ -16,7 +16,8 @@
     "preview": "vite preview",
     "build:netlify": "vite build && rm -rf netlify && mkdir netlify && cp -r dist/. netlify && cp -r dist/. netlify/math-tiles",
     "test": "echo \"No tests yet\"",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit"
   },
   "browserslist": {
     "production": [
@@ -31,6 +32,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "@types/react-router-dom": "^5",
     "@vitejs/plugin-react": "^6",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
@@ -39,6 +43,7 @@
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^5",
     "vite": "^8"
   },
   "packageManager": "yarn@4.14.1"
