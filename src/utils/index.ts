@@ -34,6 +34,7 @@ export const synthSpeak = ({ message, status, sounds }: { message?: string; stat
             text = 'Not quite, try again'
         }
 
+        if (!text) return
         const utterance = new SpeechSynthesisUtterance(text)
 
         utterance.rate = 1.2

@@ -48,6 +48,7 @@ describe('synthSpeak', () => {
         Object.defineProperty(window, 'speechSynthesis', {
             value: { cancel, speak: vi.fn() },
             writable: true,
+            configurable: true,
         })
         synthSpeak({ sounds: false })
         expect(cancel).toHaveBeenCalled()
@@ -58,6 +59,7 @@ describe('synthSpeak', () => {
         Object.defineProperty(window, 'speechSynthesis', {
             value: { cancel: vi.fn(), speak },
             writable: true,
+            configurable: true,
         })
         vi.stubGlobal('SpeechSynthesisUtterance', class {
             rate = 1; pitch = 1; text = ''

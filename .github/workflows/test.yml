@@ -21,6 +21,8 @@ jobs:
 
       - run: yarn install --immutable
 
+      - run: yarn typecheck
+
       - run: yarn lint
 
       - run: yarn build

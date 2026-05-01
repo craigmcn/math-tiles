@@ -16,10 +16,7 @@ export const OneLess = () => {
 
     const [ randA, setRandA ] = useState(0)
     const [ randArray, setRandArray ] = useState<number[]>([])
-    const [ _selection, setSelection ] = useState(0)
-
     const isOneLess = (num: number) => () => {
-        setSelection(num)
         setRight(num === randA - 1)
         setWrong(num !== randA - 1)
     }

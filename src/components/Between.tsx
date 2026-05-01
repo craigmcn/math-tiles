@@ -17,10 +17,7 @@ export const Between = () => {
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
     const [ randArray, setRandArray ] = useState<number[]>([])
-    const [ _selection, setSelection ] = useState(0)
-
     const isBetween = (num: number) => () => {
-        setSelection(num)
         setRight(num === randA + 1)
         setWrong(num !== randA + 1)
     }

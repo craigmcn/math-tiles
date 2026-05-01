@@ -26,5 +26,5 @@ yarn typecheck      # tsc --noEmit
 ## Notes
 
 - `useSessionStorage` reads and writes from `sessionStorage` (a pre-existing bug where it read from `localStorage` was fixed during the TypeScript migration)
-- The `_selection` state in exercise components (Add, Between, OneLess, OneMore, Subtract) is set but intentionally not used for display; prefixed `_selection` to suppress lint warnings
+- `synthSpeak` guards against `undefined` text before constructing `SpeechSynthesisUtterance`; this can occur when `sounds` is true but no `message` or matching `status` is provided
 - Tailwind 4 breakpoints: `md` = `768px`, `lg` = `1024px` (used as raw pixel values in `tailwind.css` since `@screen` was removed in v4)

@@ -17,10 +17,7 @@ export const Subtract = () => {
     const [ randA, setRandA ] = useState(0)
     const [ randB, setRandB ] = useState(0)
     const [ randArray, setRandArray ] = useState<number[]>([])
-    const [ _selection, setSelection ] = useState(0)
-
     const isEqual = (num: number) => () => {
-        setSelection(num)
         setRight(num === randA - randB)
         setWrong(num !== randA - randB)
     }
