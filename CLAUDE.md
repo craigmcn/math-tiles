@@ -28,3 +28,7 @@ yarn typecheck      # tsc --noEmit
 - `useSessionStorage` reads and writes from `sessionStorage` (a pre-existing bug where it read from `localStorage` was fixed during the TypeScript migration)
 - `synthSpeak` guards against `undefined` text before constructing `SpeechSynthesisUtterance`; this can occur when `sounds` is true but no `message` or matching `status` is provided
 - Tailwind 4 breakpoints: `md` = `768px`, `lg` = `1024px` (used as raw pixel values in `tailwind.css` since `@screen` was removed in v4)
+
+## TODO
+
+- [ ] Review `public/` folder — likely a CRA leftover (`public/index.html` still has `%PUBLIC_URL%` placeholders that Vite never processes); determine whether it can be deleted
