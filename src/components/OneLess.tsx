@@ -1,90 +1,102 @@
-import { useContext, useState, useEffect, useCallback } from 'react'
-import { shuffle, synthSpeak } from '../utils'
-import { StoreContext } from '../store'
-import { Exercise } from './Exercise'
-import { Status } from './Status'
+import { useContext, useState, useEffect, useCallback } from "react";
+import { shuffle, synthSpeak } from "../utils";
+import { StoreContext } from "../store";
+import { Exercise } from "./Exercise";
+import { Status } from "./Status";
 
 export const OneLess = () => {
-    const {
-        sounds: [ sounds ],
-        started: [ started ],
-        right: [ right, setRight ],
-        wrong: [ wrong, setWrong ],
-    } = useContext(StoreContext)
+  const {
+    sounds: [sounds],
+    started: [started],
+    right: [right, setRight],
+    wrong: [wrong, setWrong],
+  } = useContext(StoreContext);
 
-    const title = 'Pick the number that is 1 less than'
+  const title = "Pick the number that is 1 less than";
 
-    const [ randA, setRandA ] = useState(0)
-    const [ randArray, setRandArray ] = useState<number[]>([])
-    const isOneLess = (num: number) => () => {
-        setRight(num === randA - 1)
-        setWrong(num !== randA - 1)
+  const [randA, setRandA] = useState(0);
+  const [randArray, setRandArray] = useState<number[]>([]);
+  const isOneLess = (num: number) => () => {
+    setRight(num === randA - 1);
+    setWrong(num !== randA - 1);
+  };
+
+  const initialize = useCallback(() => {
+    setRight(false);
+    setWrong(false);
+
+    const numbers = Array.from(Array(11), (_, i) => i + 2);
+    const optionNumbers: number[] = [];
+
+    const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+
+    optionNumbers.push(a - 1);
+
+    while (optionNumbers.length < 6) {
+      const optionNumber = numbers.splice(
+        Math.floor(Math.random() * numbers.length),
+        1,
+      )[0];
+      if (!optionNumbers.includes(optionNumber)) {
+        optionNumbers.push(optionNumber);
+      }
     }
 
-    const initialize = useCallback(() => {
-        setRight(false)
-        setWrong(false)
+    setRandA(a);
 
-        const numbers = Array.from(Array(11), (_, i) => i + 2)
-        const optionNumbers: number[] = []
+    setRandArray(shuffle(optionNumbers));
+  }, [setRight, setWrong]);
 
-        const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
+  useEffect(() => {
+    randA > 0 &&
+      synthSpeak({
+        message: `${title} ${randA}`,
+        sounds: sounds && started,
+      });
+  }, [randA, sounds, started]);
 
-        optionNumbers.push(a - 1)
+  useEffect(() => {
+    right &&
+      randA &&
+      synthSpeak({
+        status: "right",
+        message: `${randA - 1} is 1 less than ${randA}`,
+        sounds: sounds && started,
+      });
+  }, [right, randA, sounds, started]);
 
-        while (optionNumbers.length < 6) {
-            const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
-            if (!optionNumbers.includes(optionNumber)) {
-                optionNumbers.push(optionNumber)
-            }
-        }
+  useEffect(() => {
+    wrong && synthSpeak({ status: "wrong", sounds: sounds && started });
+  }, [wrong, sounds, started]);
 
-        setRandA(a)
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
-        setRandArray(shuffle(optionNumbers))
-    }, [ setRight, setWrong ])
+  return (
+    <Exercise title={title} init={initialize}>
+      <p className="question">
+        <span className="question__button question__button--primary">
+          {randA}
+        </span>
+      </p>
 
-    useEffect(() => {
-        randA > 0 && synthSpeak({
-            message: `${title} ${randA}`,
-            sounds: sounds && started,
-        })
-    }, [ randA, sounds, started ])
+      <p className="options">
+        {randArray.map((num, i) => (
+          <button
+            key={i}
+            className="options__button"
+            type="button"
+            onClick={isOneLess(num)}
+          >
+            {num}
+          </button>
+        ))}
+      </p>
 
-    useEffect(() => {
-        (right && randA) && synthSpeak({
-            status: 'right',
-            message: `${randA - 1} is 1 less than ${randA}`,
-            sounds: sounds && started,
-        })
-    }, [ right, randA, sounds, started ])
-
-    useEffect(() => {
-        wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
-    }, [ wrong, sounds, started ])
-
-    useEffect(() => {
-        initialize()
-    }, [ initialize ])
-
-    return (
-        <Exercise title={ title } init={ initialize }>
-
-            <p className="question">
-                <span className="question__button question__button--primary">{ randA }</span>
-            </p>
-
-            <p className="options">
-                {
-                    randArray.map((num, i) => (
-                        <button key={ i } className="options__button" type="button" onClick={ isOneLess(num) }>{ num }</button>
-                    ))
-                }
-            </p>
-
-            <Status>
-                { randA - 1 } <span className="font-bold">is</span> one less than { randA }
-            </Status>
-        </Exercise>
-    )
-}
+      <Status>
+        {randA - 1} <span className="font-bold">is</span> one less than {randA}
+      </Status>
+    </Exercise>
+  );
+};

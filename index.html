@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Math Tiles</title>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Math Tiles</title>
+    <script>
+      (() =>
+        !window.location.pathname.endsWith("/") &&
+        window.location.replace(window.location.href + "/"))();
+    </script>
 
-  <script>
-    (() => !window.location.pathname.endsWith("/") && window.location.replace(window.location.href + "/"))()
-  </script>
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#005b99" />
+    <meta
+      name="description"
+      content="Math Tiles — arithmetic practice for primary school children"
+    />
+  </head>
 
-  <link rel="icon" href="/favicon.ico" />
-  <meta name="theme-color" content="#005b99" />
-  <meta name="description" content="Math Tiles — arithmetic practice for primary school children" />
-</head>
-
-<body class="min-h-screen">
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <script type="module" src="/src/index.tsx"></script>
-</body>
-
+  <body class="min-h-screen">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
 </html>

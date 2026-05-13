@@ -5,7 +5,7 @@ Arithmetic practice app for primary school children. Built with React 19, Vite 8
 ## Commands
 
 ```bash
-yarn start          # dev server (http://localhost:5173)
+yarn start          # dev server (http://localhost:3070)
 yarn build          # production build → dist/
 yarn preview        # preview production build locally
 yarn test           # run tests (vitest run)

@@ -1,98 +1,115 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
-import { shuffle, synthSpeak, randomInteger } from '../utils'
-import { StoreContext } from '../store'
-import { Exercise } from './Exercise'
-import { Status } from './Status'
+import { useCallback, useContext, useEffect, useState } from "react";
+import { shuffle, synthSpeak, randomInteger } from "../utils";
+import { StoreContext } from "../store";
+import { Exercise } from "./Exercise";
+import { Status } from "./Status";
 
 export const Subtract = () => {
-    const {
-        sounds: [ sounds ],
-        started: [ started ],
-        right: [ right, setRight ],
-        wrong: [ wrong, setWrong ],
-    } = useContext(StoreContext)
+  const {
+    sounds: [sounds],
+    started: [started],
+    right: [right, setRight],
+    wrong: [wrong, setWrong],
+  } = useContext(StoreContext);
 
-    const title = 'How much is'
+  const title = "How much is";
 
-    const [ randA, setRandA ] = useState(0)
-    const [ randB, setRandB ] = useState(0)
-    const [ randArray, setRandArray ] = useState<number[]>([])
-    const isEqual = (num: number) => () => {
-        setRight(num === randA - randB)
-        setWrong(num !== randA - randB)
+  const [randA, setRandA] = useState(0);
+  const [randB, setRandB] = useState(0);
+  const [randArray, setRandArray] = useState<number[]>([]);
+  const isEqual = (num: number) => () => {
+    setRight(num === randA - randB);
+    setWrong(num !== randA - randB);
+  };
+
+  const initialize = useCallback(() => {
+    setRight(false);
+    setWrong(false);
+
+    const numbers = Array.from(Array(12), (_, i) => i + 1);
+    const optionNumbers: number[] = [];
+
+    const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+    let b = randomInteger(1, 8);
+    while (b >= a) {
+      b = randomInteger(1, 8);
     }
 
-    const initialize = useCallback(() => {
-        setRight(false)
-        setWrong(false)
+    optionNumbers.push(a - b);
 
-        const numbers = Array.from(Array(12), (_, i) => i + 1)
-        const optionNumbers: number[] = []
+    while (optionNumbers.length < 6) {
+      const optionNumber = numbers.splice(
+        Math.floor(Math.random() * numbers.length),
+        1,
+      )[0];
+      if (!optionNumbers.includes(optionNumber)) {
+        optionNumbers.push(optionNumber);
+      }
+    }
 
-        const a = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
-        let b = randomInteger(1, 8)
-        while (b >= a) {
-            b = randomInteger(1, 8)
-        }
+    setRandA(a);
+    setRandB(b);
 
-        optionNumbers.push(a - b)
+    setRandArray(shuffle(optionNumbers));
+  }, [setRight, setWrong]);
 
-        while (optionNumbers.length < 6) {
-            const optionNumber = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
-            if (!optionNumbers.includes(optionNumber)) {
-                optionNumbers.push(optionNumber)
-            }
-        }
+  useEffect(() => {
+    randA &&
+      randB &&
+      synthSpeak({
+        message: `${title} ${randA} minus ${randB}`,
+        sounds: sounds && started,
+      });
+  }, [randA, randB, sounds, started]);
 
-        setRandA(a)
-        setRandB(b)
+  useEffect(() => {
+    right &&
+      randA &&
+      randB &&
+      synthSpeak({
+        status: "right",
+        message: `${randA - randB} is equal to ${randA} minus ${randB}`,
+        sounds: sounds && started,
+      });
+  }, [right, randA, randB, sounds, started]);
 
-        setRandArray(shuffle(optionNumbers))
-    }, [ setRight, setWrong ])
+  useEffect(() => {
+    wrong && synthSpeak({ status: "wrong", sounds: sounds && started });
+  }, [wrong, sounds, started]);
 
-    useEffect(() => {
-        (randA && randB) && synthSpeak({
-            message: `${title} ${randA} minus ${randB}`,
-            sounds: sounds && started,
-        })
-    }, [ randA, randB, sounds, started ])
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
-    useEffect(() => {
-        (right && randA && randB) && synthSpeak({
-            status: 'right',
-            message: `${randA - randB} is equal to ${randA} minus ${randB}`,
-            sounds: sounds && started,
-        })
-    }, [ right, randA, randB, sounds, started ])
+  return (
+    <Exercise title={title} init={initialize}>
+      <p className="question">
+        <span className="question__button question__button--primary">
+          {randA}
+        </span>
+        &minus;
+        <span className="question__button question__button--secondary">
+          {randB}
+        </span>
+      </p>
 
-    useEffect(() => {
-        wrong && synthSpeak({ status: 'wrong', sounds: sounds && started })
-    }, [ wrong, sounds, started ])
+      <p className="options">
+        {randArray.map((num, i) => (
+          <button
+            key={i}
+            className="options__button"
+            type="button"
+            onClick={isEqual(num)}
+          >
+            {num}
+          </button>
+        ))}
+      </p>
 
-    useEffect(() => {
-        initialize()
-    }, [ initialize ])
-
-    return (
-        <Exercise title={ title } init={ initialize }>
-
-            <p className="question">
-                <span className="question__button question__button--primary">{ randA }</span>
-                &minus;
-                <span className="question__button question__button--secondary">{ randB }</span>
-            </p>
-
-            <p className="options">
-                {
-                    randArray.map((num, i) => (
-                        <button key={ i } className="options__button" type="button" onClick={ isEqual(num) }>{ num }</button>
-                    ))
-                }
-            </p>
-
-            <Status>
-                { randA - randB } <span className="font-bold">is</span> equal to { randA } minus { randB }
-            </Status>
-        </Exercise>
-    )
-}
+      <Status>
+        {randA - randB} <span className="font-bold">is</span> equal to {randA}{" "}
+        minus {randB}
+      </Status>
+    </Exercise>
+  );
+};
