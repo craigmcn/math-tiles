@@ -7,7 +7,11 @@ test("starting a session navigates from the Start screen to an exercise", async 
 
   await page.getByRole("button", { name: "Start" }).click();
 
-  await expect(page.locator("h1.text-3xl")).toBeVisible();
+  await expect(
+    page
+      .getByRole("heading", { level: 1 })
+      .filter({ hasNotText: "Math Tiles" }),
+  ).toBeVisible();
 });
 
 test("answering the Higher exercise shows correct/incorrect feedback", async ({
@@ -18,7 +22,7 @@ test("answering the Higher exercise shows correct/incorrect feedback", async ({
   await expect(
     page.getByRole("heading", { name: "Pick the higher number" }),
   ).toBeVisible();
-  await expect(page.locator(".status-text")).toHaveText("What do you think?");
+  await expect(page.getByText("What do you think?")).toBeVisible();
 
   const buttons = page.locator(".question__button");
   const [a, b] = await buttons.allTextContents();
@@ -26,7 +30,7 @@ test("answering the Higher exercise shows correct/incorrect feedback", async ({
 
   await higher.click();
 
-  await expect(page.locator(".status-text")).toContainText("Correct!");
+  await expect(page.getByText(/Correct!/)).toBeVisible();
 });
 
 test("the menu opens and navigates between exercises", async ({ page }) => {
