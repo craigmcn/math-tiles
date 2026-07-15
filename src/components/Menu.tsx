@@ -33,7 +33,6 @@ export const Menu = () => {
   return (
     <nav
       className={`${menuOpen ? "translate-x-0" : "-translate-x-full"} transform top-0 left-0 w-64 bg-gray-100 border-r border-gray-300 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30`}
-      onClick={closeMenu}
     >
       <div className="flex items-center flex-shrink-0 justify-between bg-gray-300 p-2">
         <h1 className="font-bold text-2xl">Math Tiles</h1>
@@ -41,6 +40,7 @@ export const Menu = () => {
         <button
           className="flex items-center bg-gray-100 hover:text-blue-900 hover:bg-blue-100 px-2 py-1 border rounded relative"
           onClick={closeMenu}
+          aria-label="Close"
         >
           <svg
             className="fill-current h-6 w-6"
@@ -57,33 +57,47 @@ export const Menu = () => {
         <h2 className="uppercase">Exercises</h2>
 
         <ul className="menu">
-          <Link className="menu__item" to="/higher" onClick={closeMenu}>
-            Higher
-          </Link>
+          <li>
+            <Link className="menu__item" to="/higher" onClick={closeMenu}>
+              Higher
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/lower" onClick={closeMenu}>
-            Lower
-          </Link>
+          <li>
+            <Link className="menu__item" to="/lower" onClick={closeMenu}>
+              Lower
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/one-more" onClick={closeMenu}>
-            One more
-          </Link>
+          <li>
+            <Link className="menu__item" to="/one-more" onClick={closeMenu}>
+              One more
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/one-less" onClick={closeMenu}>
-            One less
-          </Link>
+          <li>
+            <Link className="menu__item" to="/one-less" onClick={closeMenu}>
+              One less
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/between" onClick={closeMenu}>
-            Between
-          </Link>
+          <li>
+            <Link className="menu__item" to="/between" onClick={closeMenu}>
+              Between
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/add" onClick={closeMenu}>
-            Add
-          </Link>
+          <li>
+            <Link className="menu__item" to="/add" onClick={closeMenu}>
+              Add
+            </Link>
+          </li>
 
-          <Link className="menu__item" to="/subtract" onClick={closeMenu}>
-            Subtract
-          </Link>
+          <li>
+            <Link className="menu__item" to="/subtract" onClick={closeMenu}>
+              Subtract
+            </Link>
+          </li>
         </ul>
       </div>
 
