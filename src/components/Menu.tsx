@@ -26,7 +26,7 @@ export const Menu = () => {
     document.body.addEventListener("click", closeMenu);
 
     return () => {
-      window.removeEventListener("click", closeMenu);
+      document.body.removeEventListener("click", closeMenu);
     };
   }, [closeMenu]);
 
