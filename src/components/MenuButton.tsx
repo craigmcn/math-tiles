@@ -16,6 +16,7 @@ export const MenuButton = () => {
       <button
         className="flex items-center px-2 py-1 border rounded hover:bg-gray-200 hover:text-gray-900"
         onClick={openMenu}
+        aria-label="Menu"
       >
         <svg
           className="fill-current h-5 w-5"
