@@ -31,4 +31,4 @@ yarn typecheck      # tsc --noEmit
 
 ## TODO
 
-- [ ] Review `public/` folder — likely a CRA leftover (`public/index.html` still has `%PUBLIC_URL%` placeholders that Vite never processes); determine whether it can be deleted
+Open TODOs (`public/` folder review, GitHub Actions bump, axe tooling, Playwright E2E) tracked as issues in the [math-tiles GitHub Project](https://github.com/users/craigmcn/projects/7).
